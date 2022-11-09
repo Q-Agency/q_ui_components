@@ -88,6 +88,7 @@ class QTextField extends StatefulWidget {
     TextCapitalization? textCapitalization,
     Iterable<String>? autofillHints,
     Color? cursorColor,
+    String? Function(String?)? validator,
   }) {
     return QTextField(
       formKey: formKey,
@@ -111,6 +112,7 @@ class QTextField extends StatefulWidget {
       textCapitalization: textCapitalization,
       autofillHints: autofillHints,
       cursorColor: cursorColor,
+      validator: validator,
     );
   }
 
