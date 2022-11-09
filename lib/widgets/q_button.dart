@@ -6,6 +6,7 @@ class QButton extends StatelessWidget {
   final Function()? onPressed;
   final Color? buttonColor;
   final Color? borderColor;
+  final Color? disabledColor;
   final double? width;
   final double? height;
   final double? borderRadius;
@@ -14,6 +15,7 @@ class QButton extends StatelessWidget {
   final Widget? trailingIcon;
   final String? text;
   final TextStyle? textStyle;
+  final bool? isEnabled;
 
   const QButton._({
     this.buttonColor,
@@ -27,6 +29,8 @@ class QButton extends StatelessWidget {
     this.text,
     this.textStyle,
     this.trailingIcon,
+    this.isEnabled,
+    this.disabledColor,
   }) : assert(leadingIcon != null || text != null);
 
   ///Creates a customizable button with icon only
@@ -39,6 +43,8 @@ class QButton extends StatelessWidget {
     double? width,
     double? height,
     Gradient? gradient,
+    bool? isEnabled,
+    Color? disabledColor,
   }) {
     return QButton._(
       onPressed: onPressed,
@@ -49,6 +55,8 @@ class QButton extends StatelessWidget {
       width: width,
       height: height,
       gradient: gradient,
+      isEnabled: isEnabled,
+      disabledColor: disabledColor,
     );
   }
 
@@ -63,6 +71,8 @@ class QButton extends StatelessWidget {
     double? width,
     double? height,
     Gradient? gradient,
+    bool? isEnabled,
+    Color? disabledColor,
   }) {
     return QButton._(
       text: text,
@@ -74,6 +84,8 @@ class QButton extends StatelessWidget {
       borderRadius: borderRadius,
       textStyle: textStyle,
       gradient: gradient,
+      isEnabled: isEnabled,
+      disabledColor: disabledColor,
     );
   }
 
@@ -89,6 +101,8 @@ class QButton extends StatelessWidget {
     double? width,
     double? height,
     Gradient? gradient,
+    bool? isEnabled,
+    Color? disabledColor,
   }) {
     return QButton._(
       onPressed: onPressed,
@@ -101,6 +115,8 @@ class QButton extends StatelessWidget {
       buttonColor: buttonColor,
       borderRadius: borderRadius,
       gradient: gradient,
+      isEnabled: isEnabled,
+      disabledColor: disabledColor,
     );
   }
 
@@ -117,6 +133,8 @@ class QButton extends StatelessWidget {
     double? width,
     double? height,
     Gradient? gradient,
+    bool? isEnabled,
+    Color? disabledColor,
   }) {
     return QButton._(
       onPressed: onPressed,
@@ -130,6 +148,8 @@ class QButton extends StatelessWidget {
       buttonColor: buttonColor,
       borderRadius: borderRadius,
       gradient: gradient,
+      isEnabled: isEnabled,
+      disabledColor: disabledColor,
     );
   }
 
@@ -137,11 +157,11 @@ class QButton extends StatelessWidget {
   Widget build(BuildContext context) {
     const initialBorderRadius = 30.0;
     return Opacity(
-      opacity: onPressed != null ? 1 : 0.3,
+      opacity: onPressed != null && (isEnabled ?? true) ? 1 : 0.3,
       child: InkWell(
         borderRadius:
             BorderRadius.circular(borderRadius ?? initialBorderRadius),
-        onTap: onPressed,
+        onTap: isEnabled ?? true ? onPressed : null,
         child: Ink(
           height: height ?? 56,
           width: width,
@@ -149,24 +169,27 @@ class QButton extends StatelessWidget {
             borderRadius: BorderRadius.all(
               Radius.circular(borderRadius ?? initialBorderRadius),
             ),
-            gradient: onPressed != null
+            gradient: onPressed != null && (isEnabled ?? true)
                 ? gradient
                 : LinearGradient(
                     colors: [
-                      Colors.grey.shade300,
-                      Colors.grey.shade300,
+                      disabledColor ?? Colors.grey.shade300,
+                      disabledColor ?? Colors.grey.shade300,
                     ],
                   ),
-            color: onPressed != null ? buttonColor : Colors.grey.shade400,
+            color: onPressed != null && (isEnabled ?? true)
+                ? buttonColor
+                : disabledColor ?? Colors.grey.shade400,
             border: Border.all(
                 color: onPressed != null
                     ? borderColor ?? Colors.transparent
                     : Colors.transparent),
           ),
           child: ColorFiltered(
-            colorFilter: onPressed != null
+            colorFilter: onPressed != null && (isEnabled ?? true)
                 ? const ColorFilter.mode(Colors.transparent, BlendMode.color)
-                : ColorFilter.mode(Colors.grey.shade300, BlendMode.overlay),
+                : ColorFilter.mode(
+                    disabledColor ?? Colors.grey.shade300, BlendMode.overlay),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
