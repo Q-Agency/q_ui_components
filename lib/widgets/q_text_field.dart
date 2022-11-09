@@ -62,6 +62,67 @@ class QTextField extends StatefulWidget {
     this.cursorColor,
   }) : super(key: key);
 
+  factory QTextField.email({
+    GlobalKey<FormState>? formKey,
+    TextEditingController? controller,
+    bool? obscureText,
+    Widget? label,
+    Widget? suffixIcon,
+    Color? borderColor,
+    bool? enabled,
+    String? obscuringCharacter,
+    String? errorText,
+    FocusNode? focusNode,
+    bool? autocorrext,
+    Function()? onEditingComplete,
+    Function()? onTap,
+    bool? readOnly,
+    TextInputType? keyboardType,
+    Brightness? keyboardAppearance,
+    String? initialValue,
+    TextStyle? textStyle,
+    TextAlign? textAlign,
+    TextCapitalization? textCapitalization,
+    Iterable<String>? autofillHints,
+    Color? cursorColor,
+    String? Function(String?)? validator,
+  }) {
+    return QTextField(
+      formKey: formKey,
+      obscureText: obscureText,
+      label: label ?? const Text('Email'),
+      borderColor: borderColor,
+      enabled: enabled,
+      suffixIcon: suffixIcon,
+      controller: controller,
+      obscuringCharacter: obscuringCharacter,
+      focusNode: focusNode,
+      autocorrext: autocorrext,
+      onEditingComplete: onEditingComplete,
+      onTap: onTap,
+      readOnly: readOnly,
+      keyboardType: keyboardType,
+      keyboardAppearance: keyboardAppearance,
+      initialValue: initialValue,
+      textStyle: textStyle,
+      textAlign: textAlign,
+      textCapitalization: textCapitalization,
+      autofillHints: autofillHints,
+      cursorColor: cursorColor,
+      validator: validator ??
+          (value) {
+            String p =
+                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+            final regExp = RegExp(p);
+            if (!regExp.hasMatch(value!)) {
+              return 'Please enter a valid e-mail address';
+            }
+            return null;
+          },
+    );
+  }
+
   ///Use this constructor for creating password fields.
   ///
   ///Obscuring text is set to true and cannot be changed,
@@ -112,7 +173,15 @@ class QTextField extends StatefulWidget {
       textCapitalization: textCapitalization,
       autofillHints: autofillHints,
       cursorColor: cursorColor,
-      validator: validator,
+      validator: validator ??
+          (value) {
+            if (value != null) {
+              if (value.length < 6) {
+                return 'Password must be at least 6 characters';
+              }
+            }
+            return null;
+          },
     );
   }
 
@@ -192,6 +261,7 @@ class _QTextFieldState extends State<QTextField> {
                     : null,
                 decoration: InputDecoration(
                   label: widget.label,
+                  suffixIcon: widget.suffixIcon,
                   labelStyle: TextStyle(
                       color: _hasError
                           ? Colors.red
