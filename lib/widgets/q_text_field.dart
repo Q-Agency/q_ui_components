@@ -62,6 +62,10 @@ class QTextField extends StatefulWidget {
     this.cursorColor,
   }) : super(key: key);
 
+  ///Use this constructor for creating email fields.
+  ///
+  ///Initial validator checks if the value in the field is a valid e-mail address
+  ///You can change the initial validator if you so choose
   factory QTextField.email({
     GlobalKey<FormState>? formKey,
     TextEditingController? controller,
@@ -90,7 +94,7 @@ class QTextField extends StatefulWidget {
     return QTextField(
       formKey: formKey,
       obscureText: obscureText,
-      label: label ?? const Text('Email'),
+      label: label ?? const Text('E-mail'),
       borderColor: borderColor,
       enabled: enabled,
       suffixIcon: suffixIcon,
@@ -127,6 +131,8 @@ class QTextField extends StatefulWidget {
   ///
   ///Obscuring text is set to true and cannot be changed,
   ///suffixIcon is only an icon at the start, but can be any widget
+  ///Initial validator checks if the length of the value in the text field is greater than 6
+  ///You can change the initial validator if you so choose
   factory QTextField.password({
     GlobalKey<FormState>? formKey,
     TextEditingController? controller,
