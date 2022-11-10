@@ -2,20 +2,21 @@ Package with custom buttons and text fields
 
 ## Features
 
-With this package you can create: 
-  - a button with icon, text, leading icon and text, leading icon and text and trailing icon. 
-  - a email text field with built in validator, and a password field with a built in validation 
-  - a custom text field
+With this package you can create:
+
+- a button with icon, text, leading icon and text, leading icon and text and trailing icon.
+- a email text field with built in validator, and a password field with a built in validation
+- a custom text field
 
 ## Getting started
 
 To start using this package just add this code snippet to your dependecyes in your pubspe.yaml file
 
 dependencies:
- q_ui_components:
-    git:
-      url: https://github.com/MPasara/QUiComponents
-      ref: master
+q_ui_components:
+git:
+url: https://github.com/MPasara/QUiComponents
+ref: master
 
 ## Usage
 
@@ -107,3 +108,5 @@ QTextField(
 ```
 
 ## Additional information
+
+link to figma design - https://www.figma.com/file/PBmEeALvddkJbrUVHVBTba/WiP-Q-Reusability-Flutter?node-id=1%3A3
