@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class QTextField extends StatefulWidget {
   final double? width;
   final double? height;
-  final Color? borderColor;
+  final Color? focusBorderColor;
+  final Color? unfocusBorderColor;
   final TextEditingController? controller;
   final TextStyle? labelStyle;
   final Function(String)? onChanged;
@@ -28,15 +29,16 @@ class QTextField extends StatefulWidget {
   final TextCapitalization? textCapitalization;
   final Iterable<String>? autofillHints;
   final Color? cursorColor;
+  final bool? hasSuffixIcon;
 
   ///Creates a customizable text field
   ///
-  ///If some parameters like borderColor are not specified, the widget will take the decoration from the Theme
+  ///If some parameters like focusfocusBorderColor are not specified, the widget will take the decoration from the Theme
   const QTextField({
     Key? key,
     this.width,
     this.height,
-    this.borderColor,
+    this.focusBorderColor,
     this.controller,
     this.labelStyle,
     this.onChanged,
@@ -60,19 +62,18 @@ class QTextField extends StatefulWidget {
     this.textCapitalization,
     this.autofillHints,
     this.cursorColor,
+    this.unfocusBorderColor,
+    this.hasSuffixIcon,
   }) : super(key: key);
 
-  ///Use this constructor for creating email fields.
-  ///
-  ///Initial validator checks if the value in the field is a valid e-mail address
-  ///You can change the initial validator if you so choose
   factory QTextField.email({
     GlobalKey<FormState>? formKey,
     TextEditingController? controller,
     bool? obscureText,
     Widget? label,
     Widget? suffixIcon,
-    Color? borderColor,
+    Color? focusBorderColor,
+    Color? unfocusBorderColor,
     bool? enabled,
     String? obscuringCharacter,
     String? errorText,
@@ -90,12 +91,14 @@ class QTextField extends StatefulWidget {
     Iterable<String>? autofillHints,
     Color? cursorColor,
     String? Function(String?)? validator,
+    bool? hasSuffixIcon,
   }) {
     return QTextField(
       formKey: formKey,
       obscureText: obscureText,
-      label: label ?? const Text('E-mail'),
-      borderColor: borderColor,
+      label: label ?? const Text('Email'),
+      focusBorderColor: focusBorderColor,
+      unfocusBorderColor: unfocusBorderColor,
       enabled: enabled,
       suffixIcon: suffixIcon,
       controller: controller,
@@ -113,6 +116,7 @@ class QTextField extends StatefulWidget {
       textCapitalization: textCapitalization,
       autofillHints: autofillHints,
       cursorColor: cursorColor,
+      hasSuffixIcon: hasSuffixIcon,
       validator: validator ??
           (value) {
             String p =
@@ -131,14 +135,13 @@ class QTextField extends StatefulWidget {
   ///
   ///Obscuring text is set to true and cannot be changed,
   ///suffixIcon is only an icon at the start, but can be any widget
-  ///Initial validator checks if the length of the value in the text field is greater than 6
-  ///You can change the initial validator if you so choose
   factory QTextField.password({
     GlobalKey<FormState>? formKey,
     TextEditingController? controller,
     Widget? label,
     Widget? suffixIcon,
-    Color? borderColor,
+    Color? focusBorderColor,
+    Color? unfocusBorderColor,
     bool? enabled,
     String? obscuringCharacter,
     String? errorText,
@@ -155,13 +158,15 @@ class QTextField extends StatefulWidget {
     TextCapitalization? textCapitalization,
     Iterable<String>? autofillHints,
     Color? cursorColor,
+    bool? hasSuffixIcon,
     String? Function(String?)? validator,
   }) {
     return QTextField(
       formKey: formKey,
       obscureText: true,
-      label: label,
-      borderColor: borderColor,
+      label: label ?? const Text('Password'),
+      focusBorderColor: focusBorderColor,
+      unfocusBorderColor: unfocusBorderColor,
       enabled: enabled,
       suffixIcon: suffixIcon ?? const Icon(Icons.remove_red_eye),
       controller: controller,
@@ -179,6 +184,7 @@ class QTextField extends StatefulWidget {
       textCapitalization: textCapitalization,
       autofillHints: autofillHints,
       cursorColor: cursorColor,
+      hasSuffixIcon: hasSuffixIcon,
       validator: validator ??
           (value) {
             if (value != null) {
@@ -206,10 +212,10 @@ class _QTextFieldState extends State<QTextField> {
       _errorText = null;
       if (widget.focusNode != null) {
         if (widget.focusNode!.hasFocus) {
-          color = (widget.borderColor ?? Theme.of(context).primaryColor);
+          color = (widget.focusBorderColor ?? Theme.of(context).primaryColor);
         }
       } else if (_focusNode.hasFocus) {
-        color = (widget.borderColor ?? Theme.of(context).primaryColor);
+        color = (widget.focusBorderColor ?? Theme.of(context).primaryColor);
       } else {
         color = Colors.grey.shade400;
       }
@@ -230,7 +236,7 @@ class _QTextFieldState extends State<QTextField> {
             width: widget.width ?? 318,
             height: widget.height ?? 56,
             decoration: BoxDecoration(
-              border: Border.all(color: _checkBorderColor(context)),
+              border: Border.all(color: _checkfocusBorderColor(context)),
               borderRadius: BorderRadius.circular(10),
               color: widget.enabled ?? true
                   ? Colors.transparent
@@ -240,7 +246,8 @@ class _QTextFieldState extends State<QTextField> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: TextFormField(
-                cursorColor: widget.cursorColor ?? _checkBorderColor(context),
+                cursorColor:
+                    widget.cursorColor ?? _checkfocusBorderColor(context),
                 controller: widget.controller,
                 focusNode: widget.focusNode ?? _focusNode,
                 obscureText: widget.obscureText ?? false,
@@ -267,13 +274,16 @@ class _QTextFieldState extends State<QTextField> {
                     : null,
                 decoration: InputDecoration(
                   label: widget.label,
-                  suffixIcon: widget.suffixIcon,
+                  suffixIcon: widget.hasSuffixIcon ?? true
+                      ? widget.suffixIcon
+                      : const SizedBox(),
                   labelStyle: TextStyle(
                       color: _hasError
                           ? Colors.red
                           : widget.focusNode?.hasFocus ?? _focusNode.hasFocus
-                              ? widget.borderColor ?? color
-                              : Colors.grey.shade600),
+                              ? widget.focusBorderColor ?? color
+                              : widget.unfocusBorderColor ??
+                                  Colors.grey.shade600),
                   border: InputBorder.none,
                 ),
               ),
@@ -306,30 +316,30 @@ class _QTextFieldState extends State<QTextField> {
   void _addListenerToFocusNodes(BuildContext context) {
     widget.focusNode?.addListener(() {
       setState(() => color = (widget.focusNode!.hasFocus)
-          ? (widget.borderColor ?? Theme.of(context).primaryColor)
+          ? (widget.focusBorderColor ?? Theme.of(context).primaryColor)
           : Colors.grey.shade400);
     });
 
     _focusNode.addListener(() {
       setState(() => color = (_focusNode.hasFocus)
-          ? (widget.borderColor ?? Theme.of(context).primaryColor)
-          : Colors.grey.shade400);
+          ? (widget.focusBorderColor ?? Theme.of(context).primaryColor)
+          : Colors.red);
     });
   }
 
   bool get _hasError => _errorText != null;
 
-  Color _checkBorderColor(BuildContext context) {
+  Color _checkfocusBorderColor(BuildContext context) {
     if (_hasError) {
       return Colors.red;
     }
     if (widget.focusNode?.hasFocus ?? _focusNode.hasFocus) {
-      return widget.borderColor ?? Theme.of(context).primaryColor;
+      return widget.focusBorderColor ?? Theme.of(context).primaryColor;
     }
     if (widget.enabled != null) {
       widget.enabled ?? true ? Colors.transparent : Colors.grey.shade400;
     }
 
-    return Colors.grey.shade400;
+    return widget.unfocusBorderColor ?? Colors.grey.shade400;
   }
 }
