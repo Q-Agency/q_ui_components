@@ -12,11 +12,12 @@ With this package you can create:
 
 To start using this package just add this code snippet to your dependecyes in your pubspe.yaml file
 
-dependencies:
+```dart
 q_ui_components:
-git:
-url: https://github.com/MPasara/QUiComponents
-ref: master
+    git:
+      url: https://github.com/Q-Agency/q_ui_components
+      ref: master
+```
 
 ## Usage
 
@@ -39,9 +40,7 @@ QButton.text(
                     disabledColor: Colors.grey,
                     textStyle: const TextStyle(color: Colors.white),
                     isEnabled: true,
-                    onPressed: () {
-                      _key.currentState!.validate();
-                    },
+                    onPressed: () => _key.currentState!.validate(),
                     gradient: const LinearGradient(
                       colors: [Colors.blue, Colors.green],
                     ),
@@ -50,7 +49,7 @@ QButton.text(
 
 ```dart
  QButton.textWithLeadingIcon(
-                    text: Text('Check'),
+                    text: 'Check',
                     leadingIcon: Icon(Icons.check),
                     onPressed: () {},
                     borderRadius: 12,
@@ -103,7 +102,6 @@ QTextField(
                     label: const Text('Confirm password'),
                     formKey: _key,
                     enabled: true,
-                    errorText: 'Passwords must match',
                   ),
 ```
 
