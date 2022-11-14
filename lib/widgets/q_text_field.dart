@@ -80,6 +80,7 @@ class QTextField extends StatefulWidget {
     FocusNode? focusNode,
     bool? autocorrext,
     Function()? onEditingComplete,
+    Function(String)? onChanged,
     Function()? onTap,
     bool? readOnly,
     TextInputType? keyboardType,
@@ -117,6 +118,7 @@ class QTextField extends StatefulWidget {
       autofillHints: autofillHints,
       cursorColor: cursorColor,
       hasSuffixIcon: hasSuffixIcon,
+      onChanged: onChanged,
       validator: validator ??
           (value) {
             String p =
@@ -148,6 +150,7 @@ class QTextField extends StatefulWidget {
     FocusNode? focusNode,
     bool? autocorrext,
     Function()? onEditingComplete,
+    Function(String)? onChanged,
     Function()? onTap,
     bool? readOnly,
     TextInputType? keyboardType,
@@ -185,6 +188,7 @@ class QTextField extends StatefulWidget {
       autofillHints: autofillHints,
       cursorColor: cursorColor,
       hasSuffixIcon: hasSuffixIcon,
+      onChanged: onChanged,
       validator: validator ??
           (value) {
             if (value != null) {
@@ -249,6 +253,7 @@ class _QTextFieldState extends State<QTextField> {
                 cursorColor:
                     widget.cursorColor ?? _checkfocusBorderColor(context),
                 controller: widget.controller,
+                onChanged: widget.onChanged,
                 focusNode: widget.focusNode ?? _focusNode,
                 obscureText: widget.obscureText ?? false,
                 enabled: widget.enabled ?? true,
