@@ -4,9 +4,16 @@ import 'package:flutter/material.dart';
 class QButton extends StatelessWidget {
   ///Creates a button
   final Function()? onPressed;
+  final Function()? onDoubleTap;
+  final Function()? onLongPress;
+  final Function()? onTapCancel;
+  final Function(bool)? onHover;
+  final Function(TapDownDetails)? onTapDown;
+  final Function(TapUpDetails)? onTapUp;
   final Color? buttonColor;
   final Color? borderColor;
   final Color? disabledColor;
+  final Color? splashColor;
   final double? width;
   final double? height;
   final double? borderRadius;
@@ -31,14 +38,28 @@ class QButton extends StatelessWidget {
     this.trailingIcon,
     this.isEnabled,
     this.disabledColor,
+    this.onDoubleTap,
+    this.onLongPress,
+    this.onTapCancel,
+    this.onHover,
+    this.onTapDown,
+    this.onTapUp,
+    this.splashColor,
   }) : assert(leadingIcon != null || text != null);
 
   ///Creates a customizable button with icon only
   factory QButton.icon({
     required Widget icon,
     required Function()? onPressed,
+    Function()? onDoubleTap,
+    Function()? onLongPress,
+    Function()? onTapCancel,
+    Function(bool)? onHover,
+    Function(TapDownDetails)? onTapDown,
+    Function(TapUpDetails)? onTapUp,
     Color? buttonColor,
     Color? borderColor,
+    Color? splashColor,
     double? borderRadius,
     double? width,
     double? height,
@@ -48,9 +69,16 @@ class QButton extends StatelessWidget {
   }) {
     return QButton._(
       onPressed: onPressed,
+      onDoubleTap: onDoubleTap,
+      onLongPress: onLongPress,
+      onTapCancel: onTapCancel,
+      onHover: onHover,
+      onTapDown: onTapDown,
+      onTapUp: onTapUp,
       leadingIcon: icon,
       buttonColor: buttonColor,
       borderColor: borderColor,
+      splashColor: splashColor,
       borderRadius: borderRadius,
       width: width,
       height: height,
@@ -64,8 +92,15 @@ class QButton extends StatelessWidget {
   factory QButton.text({
     required String text,
     required Function()? onPressed,
+    Function()? onDoubleTap,
+    Function()? onLongPress,
+    Function()? onTapCancel,
+    Function(bool)? onHover,
+    Function(TapDownDetails)? onTapDown,
+    Function(TapUpDetails)? onTapUp,
     Color? buttonColor,
     Color? borderColor,
+    Color? splashColor,
     double? borderRadius,
     TextStyle? textStyle,
     double? width,
@@ -77,10 +112,17 @@ class QButton extends StatelessWidget {
     return QButton._(
       text: text,
       onPressed: onPressed,
+      onDoubleTap: onDoubleTap,
+      onLongPress: onLongPress,
+      onTapCancel: onTapCancel,
+      onHover: onHover,
+      onTapDown: onTapDown,
+      onTapUp: onTapUp,
       width: width,
       height: height,
       borderColor: borderColor,
       buttonColor: buttonColor,
+      splashColor: splashColor,
       borderRadius: borderRadius,
       textStyle: textStyle,
       gradient: gradient,
@@ -94,8 +136,15 @@ class QButton extends StatelessWidget {
     required Widget leadingIcon,
     required String text,
     required Function()? onPressed,
+    Function()? onDoubleTap,
+    Function()? onLongPress,
+    Function()? onTapCancel,
+    Function(bool)? onHover,
+    Function(TapDownDetails)? onTapDown,
+    Function(TapUpDetails)? onTapUp,
     Color? buttonColor,
     Color? borderColor,
+    Color? splashColor,
     double? borderRadius,
     TextStyle? textStyle,
     double? width,
@@ -106,6 +155,12 @@ class QButton extends StatelessWidget {
   }) {
     return QButton._(
       onPressed: onPressed,
+      onDoubleTap: onDoubleTap,
+      onLongPress: onLongPress,
+      onTapCancel: onTapCancel,
+      onHover: onHover,
+      onTapDown: onTapDown,
+      onTapUp: onTapUp,
       leadingIcon: leadingIcon,
       text: text,
       textStyle: textStyle,
@@ -113,6 +168,7 @@ class QButton extends StatelessWidget {
       height: height,
       borderColor: borderColor,
       buttonColor: buttonColor,
+      splashColor: splashColor,
       borderRadius: borderRadius,
       gradient: gradient,
       isEnabled: isEnabled,
@@ -126,8 +182,15 @@ class QButton extends StatelessWidget {
     required String text,
     required Widget trailingIcon,
     required Function()? onPressed,
+    Function()? onDoubleTap,
+    Function()? onLongPress,
+    Function()? onTapCancel,
+    Function(bool)? onHover,
+    Function(TapDownDetails)? onTapDown,
+    Function(TapUpDetails)? onTapUp,
     Color? buttonColor,
     Color? borderColor,
+    Color? splashColor,
     double? borderRadius,
     TextStyle? textStyle,
     double? width,
@@ -138,6 +201,11 @@ class QButton extends StatelessWidget {
   }) {
     return QButton._(
       onPressed: onPressed,
+      onLongPress: onLongPress,
+      onTapCancel: onTapCancel,
+      onHover: onHover,
+      onTapDown: onTapDown,
+      onTapUp: onTapUp,
       leadingIcon: leadingIcon,
       trailingIcon: trailingIcon,
       text: text,
@@ -146,6 +214,7 @@ class QButton extends StatelessWidget {
       height: height,
       borderColor: borderColor,
       buttonColor: buttonColor,
+      splashColor: splashColor,
       borderRadius: borderRadius,
       gradient: gradient,
       isEnabled: isEnabled,
@@ -159,9 +228,16 @@ class QButton extends StatelessWidget {
     return Opacity(
       opacity: onPressed != null && (isEnabled ?? true) ? 1 : 0.3,
       child: InkWell(
+        splashColor: splashColor,
         borderRadius:
             BorderRadius.circular(borderRadius ?? initialBorderRadius),
         onTap: isEnabled ?? true ? onPressed : null,
+        onDoubleTap: isEnabled ?? true ? onDoubleTap : null,
+        onLongPress: isEnabled ?? true ? onLongPress : null,
+        onTapCancel: onTapCancel,
+        onHover: onHover,
+        onTapDown: isEnabled ?? true ? onTapDown : null,
+        onTapUp: isEnabled ?? true ? onTapUp : null,
         child: Ink(
           height: height ?? 56,
           width: width,

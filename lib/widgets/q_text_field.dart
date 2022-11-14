@@ -17,7 +17,7 @@ class QTextField extends StatefulWidget {
   final GlobalKey<FormState>? formKey;
   final String? obscuringCharacter;
   final FocusNode? focusNode;
-  final bool? autocorrext;
+  final bool? autocorrect;
   final Function()? onEditingComplete;
   final Function()? onTap;
   final bool? readOnly;
@@ -50,7 +50,7 @@ class QTextField extends StatefulWidget {
     this.formKey,
     this.obscuringCharacter,
     this.focusNode,
-    this.autocorrext,
+    this.autocorrect,
     this.onEditingComplete,
     this.onTap,
     this.readOnly,
@@ -78,7 +78,7 @@ class QTextField extends StatefulWidget {
     String? obscuringCharacter,
     String? errorText,
     FocusNode? focusNode,
-    bool? autocorrext,
+    bool? autocorrect,
     Function()? onEditingComplete,
     Function(String)? onChanged,
     Function()? onTap,
@@ -105,7 +105,7 @@ class QTextField extends StatefulWidget {
       controller: controller,
       obscuringCharacter: obscuringCharacter,
       focusNode: focusNode,
-      autocorrext: autocorrext,
+      autocorrect: autocorrect,
       onEditingComplete: onEditingComplete,
       onTap: onTap,
       readOnly: readOnly,
@@ -148,7 +148,7 @@ class QTextField extends StatefulWidget {
     String? obscuringCharacter,
     String? errorText,
     FocusNode? focusNode,
-    bool? autocorrext,
+    bool? autocorrect,
     Function()? onEditingComplete,
     Function(String)? onChanged,
     Function()? onTap,
@@ -175,7 +175,7 @@ class QTextField extends StatefulWidget {
       controller: controller,
       obscuringCharacter: obscuringCharacter,
       focusNode: focusNode,
-      autocorrext: autocorrext,
+      autocorrect: autocorrect,
       onEditingComplete: onEditingComplete,
       onTap: onTap,
       readOnly: readOnly,
@@ -258,7 +258,7 @@ class _QTextFieldState extends State<QTextField> {
                 obscureText: widget.obscureText ?? false,
                 enabled: widget.enabled ?? true,
                 obscuringCharacter: widget.obscuringCharacter ?? '*',
-                autocorrect: widget.autocorrext ?? false,
+                autocorrect: widget.autocorrect ?? false,
                 autofillHints: widget.autofillHints,
                 onEditingComplete: widget.onEditingComplete,
                 onTap: widget.onTap,
